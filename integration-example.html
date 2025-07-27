@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEDTOOLS.ID - Integration Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8, #1e40af);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            color: #333;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: #2563eb;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .auth-section {
+            background: #f8fafc;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .auth-button {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-button:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+        
+        .auth-button.secondary {
+            background: white;
+            color: #2563eb;
+            border: 2px solid #2563eb;
+        }
+        
+        .auth-button.secondary:hover {
+            background: #2563eb;
+            color: white;
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .status.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .status.error {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+        
+        .integration-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .method-card {
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #2563eb;
+        }
+        
+        .method-card h3 {
+            margin-top: 0;
+            color: #2563eb;
+        }
+        
+        code {
+            background: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">🏥</div>
+                <h1>MEDTOOLS.ID</h1>
+            </div>
+            <p>Creator Team WorkSpace Integration Example</p>
+        </div>
+
+        <div class="auth-section">
+            <h2>Authentication Status</h2>
+            <div id="authStatus" class="status">Checking authentication...</div>
+            
+            <div id="loginButtons" style="display: none;">
+                <h3>Access Creator WorkSpace</h3>
+                <a href="http://localhost:8000/login" class="auth-button">
+                    🔐 Login to WorkSpace
+                </a>
+                <a href="http://localhost:8000" class="auth-button secondary">
+                    🏠 View Homepage
+                </a>
+            </div>
+            
+            <div id="userInfo" style="display: none;">
+                <h3>Welcome Back!</h3>
+                <p>You are logged in as: <strong id="userEmail"></strong></p>
+                <a href="http://localhost:8000/private" class="auth-button">
+                    📁 Access Private Files
+                </a>
+                <a href="http://localhost:8000/admin" class="auth-button secondary">
+                    ⚙️ Admin Panel
+                </a>
+                <button onclick="logout()" class="auth-button" style="background: #dc2626;">
+                    🚪 Logout
+                </button>
+            </div>
+        </div>
+
+        <div class="integration-methods">
+            <div class="method-card">
+                <h3>🔗 Direct Link Integration</h3>
+                <p>Add authentication links to your existing website:</p>
+                <div class="code-block">
+<a href="https://auth.creator.medtools.id">
+  Access WorkSpace
+</a>
+                </div>
+            </div>
+
+            <div class="method-card">
+                <h3>🖼️ Iframe Integration</h3>
+                <p>Embed the login form directly in your page:</p>
+                <div class="code-block">
+<iframe 
+  src="https://auth.creator.medtools.id/login"
+  width="100%" height="600px">
+</iframe>
+                </div>
+            </div>
+
+            <div class="method-card">
+                <h3>⚡ API Integration</h3>
+                <p>Use JavaScript to check authentication status:</p>
+                <div class="code-block">
+fetch('/api/auth/session')
+  .then(res => res.json())
+  .then(data => {
+    if (data.email) {
+      showPrivateContent();
+    }
+  });
+                </div>
+            </div>
+
+            <div class="method-card">
+                <h3>🌐 Subdomain Setup</h3>
+                <p>Deploy as subdomain for seamless integration:</p>
+                <div class="code-block">
+auth.creator.medtools.id
+workspace.creator.medtools.id
+                </div>
+            </div>
+        </div>
+
+        <div class="auth-section">
+            <h2>🚀 Deployment Options</h2>
+            <p>Choose your preferred hosting platform:</p>
+            
+            <a href="https://vercel.com" target="_blank" class="auth-button">
+                ▲ Deploy to Vercel
+            </a>
+            <a href="https://railway.app" target="_blank" class="auth-button secondary">
+                🚂 Deploy to Railway
+            </a>
+            <a href="https://netlify.com" target="_blank" class="auth-button secondary">
+                🌐 Deploy to Netlify
+            </a>
+        </div>
+
+        <div class="auth-section">
+            <h2>📋 Setup Checklist</h2>
+            <ul style="text-align: left; max-width: 500px; margin: 0 auto;">
+                <li>✅ Authentication system built with MEDTOOLS.ID theme</li>
+                <li>✅ File management system for admins</li>
+                <li>✅ Google & Microsoft OAuth ready</li>
+                <li>✅ Secure JWT-based sessions</li>
+                <li>⏳ Configure OAuth credentials</li>
+                <li>⏳ Deploy to production</li>
+                <li>⏳ Set up custom domain</li>
+                <li>⏳ Integrate with main website</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication status
+        async function checkAuth() {
+            try {
+                const response = await fetch('http://localhost:8000/api/auth/session');
+                const data = await response.json();
+                
+                const statusDiv = document.getElementById('authStatus');
+                const loginButtons = document.getElementById('loginButtons');
+                const userInfo = document.getElementById('userInfo');
+                
+                if (response.ok && data.email) {
+                    // User is authenticated
+                    statusDiv.textContent = 'Authentication successful!';
+                    statusDiv.className = 'status success';
+                    statusDiv.style.display = 'block';
+                    
+                    document.getElementById('userEmail').textContent = data.email;
+                    userInfo.style.display = 'block';
+                    loginButtons.style.display = 'none';
+                } else {
+                    // User is not authenticated
+                    statusDiv.textContent = 'Not authenticated. Please login to access WorkSpace.';
+                    statusDiv.className = 'status error';
+                    statusDiv.style.display = 'block';
+                    
+                    loginButtons.style.display = 'block';
+                    userInfo.style.display = 'none';
+                }
+            } catch (error) {
+                // Error checking authentication
+                const statusDiv = document.getElementById('authStatus');
+                statusDiv.textContent = 'Unable to connect to authentication server. Make sure the server is running on localhost:8000';
+                statusDiv.className = 'status error';
+                statusDiv.style.display = 'block';
+                
+                document.getElementById('loginButtons').style.display = 'block';
+            }
+        }
+
+        // Logout function
+        async function logout() {
+            try {
+                await fetch('http://localhost:8000/api/auth/logout', { method: 'POST' });
+                checkAuth(); // Refresh status
+            } catch (error) {
+                alert('Logout failed. Please try again.');
+            }
+        }
+
+        // Check auth status on page load
+        checkAuth();
+
+        // Refresh status every 30 seconds
+        setInterval(checkAuth, 30000);
+    </script>
+</body>
+</html>
