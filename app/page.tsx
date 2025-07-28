@@ -133,7 +133,7 @@ export default function HomePage() {
               </p>
               <p className="text-blue-100 leading-relaxed">
                 We combine strategic marketing approaches with innovative content creation to enhance 
-                Medtools' brand awareness while driving meaningful engagement and conversions 
+                Medtools&apos; brand awareness while driving meaningful engagement and conversions 
                 through carefully crafted digital funneling.
               </p>
             </div>

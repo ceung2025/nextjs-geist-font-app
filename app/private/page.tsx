@@ -52,7 +52,7 @@ export default function PrivatePage() {
       } else {
         setError("Unable to fetch private files.");
       }
-    } catch (err) {
+    } catch {
       setError("Network error occurred.");
     } finally {
       setIsLoadingFiles(false);

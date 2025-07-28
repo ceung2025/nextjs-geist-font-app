@@ -14,7 +14,7 @@ export async function GET() {
       return NextResponse.json({ error: "Not authorized" }, { status: 401 });
     }
 
-    const payload = verifyToken(token);
+    const payload = verifyToken(token) as { email: string };
     
     // Check if user is admin
     if (!payload.email.includes("admin")) {
@@ -46,7 +46,7 @@ export async function GET() {
     );
 
     return NextResponse.json({ files: fileList });
-  } catch (error: any) {
+  } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Not authorized" }, { status: 401 });
     }
 
-    const payload = verifyToken(token);
+    const payload = verifyToken(token) as { email: string };
     
     // Check if user is admin
     if (!payload.email.includes("admin")) {
@@ -105,7 +105,7 @@ export async function POST(request: Request) {
       message: "File uploaded successfully",
       fileName: file.name 
     });
-  } catch (error: any) {
+  } catch {
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 }
@@ -119,7 +119,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "Not authorized" }, { status: 401 });
     }
 
-    const payload = verifyToken(token);
+    const payload = verifyToken(token) as { email: string };
     
     // Check if user is admin
     if (!payload.email.includes("admin")) {
@@ -136,12 +136,12 @@ export async function DELETE(request: Request) {
     try {
       await fs.unlink(filePath);
       await fs.unlink(metadataPath);
-    } catch (error) {
+    } catch {
       // File might not exist
     }
 
     return NextResponse.json({ message: "File deleted successfully" });
-  } catch (error: any) {
+  } catch {
     return NextResponse.json({ error: "Delete failed" }, { status: 500 });
   }
 }

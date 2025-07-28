@@ -14,7 +14,7 @@ export async function GET() {
     }
 
     // Validate the token
-    const payload = verifyToken(token);
+    const payload = verifyToken(token) as { email: string };
     
     // Read files from uploads directory
     const uploadsDir = path.join(process.cwd(), "uploads");
@@ -60,7 +60,7 @@ export async function GET() {
           };
         })
       );
-    } catch (error) {
+    } catch {
       // If uploads directory doesn't exist, return sample data
       privateFiles = [
         {
@@ -98,7 +98,7 @@ export async function GET() {
       user: payload.email,
       files: privateFiles
     });
-  } catch (error: any) {
+  } catch {
     return NextResponse.json({ error: "Not authorized" }, { status: 401 });
   }
 }

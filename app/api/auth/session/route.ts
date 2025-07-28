@@ -11,9 +11,9 @@ export async function GET() {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const payload = verifyToken(token);
+    const payload = verifyToken(token) as { email: string };
     return NextResponse.json({ email: payload.email });
-  } catch (error: any) {
+  } catch {
     return NextResponse.json({ error: "Invalid session" }, { status: 401 });
   }
 }
